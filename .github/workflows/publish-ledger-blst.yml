@@ -1,0 +1,34 @@
+# Publishes the Rust bindings of this fork to the Ledger internal cargo registry,
+# as `ledger-blst`.
+#
+# leos-crypto needs the one change this fork carries on mirror-stable: `std` is
+# a Cargo feature, so a hosted no_std build can turn it off. Cargo refuses to
+# publish a crate that carries a git dependency, so leos-lite cannot move to a
+# cargo registry until this crate sits in one.
+#
+# The crate is renamed because upstream `blst` 0.3.17 exists on crates.io and is
+# different code. The library name stays `blst`, so `use blst::*` keeps working.
+# Nothing here is ever merged back upstream.
+name: publish ledger-blst
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    permissions:
+      contents: read
+      id-token: write # Required for the JFrog OIDC login
+      packages: read # Required to pull the builder image from ghcr.io
+    uses: LedgerHQ/enclave-github-workflows/.github/workflows/job-rust-publish.yml@v1
+    secrets: inherit
+    with:
+      # The team Rust toolchain. It carries gcc and clang, which this crate's
+      # build needs to compile the C sources, so it needs no builder of its own.
+      DOCKER_IMAGE_NAME: toolchain-rust-enclave
+      CARGO_REGISTRY: enclave-cargo-prod-green
+      # The crate is not at the repository root.
+      WORKING_DIRECTORY: bindings/rust

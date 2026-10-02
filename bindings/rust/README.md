@@ -2,6 +2,29 @@
 
 The `blst` crate provides a rust interface to the blst BLS12-381 signature library.
 
+## This fork
+
+This is the Ledger fork. The `mirror-stable` branch carries one change on top of
+upstream: `std` is a Cargo feature, so a hosted `no_std` build can turn it off.
+Upstream infers `std` from the target triple instead, which pulls `threadpool`
+into a build that cannot use it.
+
+The crate publishes to the Ledger internal cargo registry as **`ledger-blst`**,
+not as `blst`, because upstream `blst` 0.3.17 exists on crates.io and is
+different code. The library name stays `blst`, so `use blst::*` keeps working.
+A consumer declares it as:
+
+```toml
+blst = { package = "ledger-blst", version = "=0.3.17", registry = "enclave-cargo-prod-green" }
+```
+
+`ledger-blst` 0.3.17 is upstream 0.3.17 plus that one commit. Later Ledger
+changes bump the patch number of `ledger-blst` alone.
+
+This fork is not synchronised with upstream and nothing here is merged back to
+it. Take a fix from upstream by cherry-picking it onto `mirror-stable`, never by
+merging, and never open a pull request whose base is `supranational/blst`.
+
 ## Build
 [bindgen](https://github.com/rust-lang/rust-bindgen) is used to generate FFI bindings to blst.h. Then [build.rs](https://github.com/supranational/blst/blob/master/bindings/rust/build.rs) invokes C compiler to compile everything into libblst.a within the rust target build area. On Linux it's possible to choose compiler by setting `CC` environment variable.
 

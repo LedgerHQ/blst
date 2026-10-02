@@ -85,7 +85,7 @@ jobs:
             rustup target add wasm32-wasip1
             env CARGO_TARGET_WASM32_WASIP1_RUNNER=~/.wasmtime/bin/wasmtime \
                 cargo test --release --target=wasm32-wasip1
-            cargo clean -p blst --release --target=wasm32-wasip1
+            cargo clean -p ledger-blst --release --target=wasm32-wasip1
             echo
         fi
         if [ $RUNNER_OS = "Linux" ]; then
@@ -98,7 +98,7 @@ jobs:
                 echo
                 rustup target add x86_64-fortanix-unknown-sgx
                 cargo test --no-run --release --target=x86_64-fortanix-unknown-sgx
-                cargo clean -p blst --release --target=x86_64-fortanix-unknown-sgx
+                cargo clean -p ledger-blst --release --target=x86_64-fortanix-unknown-sgx
                 echo
             fi
             echo '--- dry-run publish'
@@ -110,14 +110,14 @@ jobs:
                 echo
                 rustup target add x86_64-apple-darwin
                 cargo test --release --target=x86_64-apple-darwin
-                cargo clean -p blst --release --target=x86_64-apple-darwin
+                cargo clean -p ledger-blst --release --target=x86_64-apple-darwin
                 echo
             else
                 echo '--- build aarch64-apple-darwin'
                 echo
                 rustup target add aarch64-apple-darwin
                 cargo test --no-run --release --target=aarch64-apple-darwin
-                cargo clean -p blst --release --target=aarch64-apple-darwin
+                cargo clean -p ledger-blst --release --target=aarch64-apple-darwin
                 echo
             fi
             echo '--- build aarch64-apple-ios'
@@ -125,7 +125,7 @@ jobs:
             rustup target add aarch64-apple-ios
             env IPHONEOS_DEPLOYMENT_TARGET=10.0 \
                 cargo test --no-run --release --target=aarch64-apple-ios
-            cargo clean -p blst --release --target=aarch64-apple-ios
+            cargo clean -p ledger-blst --release --target=aarch64-apple-ios
             echo
         elif [ $RUNNER_OS = "Windows" -a $RUNNER_ARCH = "X64" ]; then
             if which clang-cl > /dev/null 2>&1; then
@@ -133,14 +133,14 @@ jobs:
                 echo
                 rustup target add i686-pc-windows-msvc
                 cargo test --release --target=i686-pc-windows-msvc
-                cargo clean -p blst --release --target=i686-pc-windows-msvc
+                cargo clean -p ledger-blst --release --target=i686-pc-windows-msvc
                 echo
             fi
             echo '-- test x86_64-pc-windows-gnu'
             echo
             rustup target add x86_64-pc-windows-gnu
             cargo test --release --target=x86_64-pc-windows-gnu
-            cargo clean -p blst --release --target=x86_64-pc-windows-gnu
+            cargo clean -p ledger-blst --release --target=x86_64-pc-windows-gnu
             echo
         fi
         echo
@@ -148,8 +148,8 @@ jobs:
         echo
         echo 'msrv = "1.56"' > .clippy.toml
         cargo clippy --release
-        cargo clean -p blst
-        cargo clean -p blst --release
+        cargo clean -p ledger-blst
+        cargo clean -p ledger-blst --release
         rm -rf target/.rustc_info.json
         rm -rf target/package
         rm -rf target/{debug,release}/incremental
