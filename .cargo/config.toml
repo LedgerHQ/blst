@@ -1,0 +1,4 @@
+# The Ledger internal cargo registry. Cargo reads its token from
+# CARGO_REGISTRIES_ENCLAVE_CARGO_PROD_GREEN_TOKEN.
+[registries.enclave-cargo-prod-green]
+index = "sparse+https://jfrog.ledgerlabs.net/artifactory/api/cargo/enclave-cargo-prod-green/index/"
