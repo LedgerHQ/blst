@@ -15,10 +15,10 @@ different code. The library name stays `blst`, so `use blst::*` keeps working.
 A consumer declares it as:
 
 ```toml
-blst = { package = "ledger-blst", version = "=0.3.17", registry = "enclave-cargo-prod-green" }
+blst = { package = "ledger-blst", version = "=0.3.18", registry = "enclave-cargo-prod-green" }
 ```
 
-`ledger-blst` 0.3.17 is upstream 0.3.17 plus that one commit. Later Ledger
+`ledger-blst` 0.3.18 is upstream 0.3.17 plus that one commit. Later Ledger
 changes bump the patch number of `ledger-blst` alone.
 
 This fork is not synchronised with upstream and nothing here is merged back to
